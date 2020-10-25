@@ -119,44 +119,58 @@
                 <div class="col-lg-6">
                     <div class="green-box-section text-center">
                         <div class="text-green">
-                        <h3>STAKE NFY TOKEN</h3>
+                            <h3>NFY STAKING VAULT <br> TOTAL STAKED : <span id="total-nfy-staked"> N/A NFY</span></h3>
                         </div>
-                        <h3 id="nfy-balance">YOUR NFY BALANCE : N/A</h3>
-                        <h3>APY : N/A </h3>
+                        <div id="nfy-stake-details">
+                            <h3>
+                                <span class="text-green">YOUR NFY BALANCE : </span><span id="nfy-balance">N/A</span>
+                                <br><span class="text-green">STAKED NFY / NFT BALANCE : </span><span id="nfy-staked">N/A</span> / <span id="total-nfy-nfts">N/A</span>
+                                <br><span class="text-green">APY : </span> <span id="nfy-apy">N/A</span>
+                                <span class="text-green">&nbsp; &nbsp; YOUR REWARDS : </span> <span id="nfy-rewards">N/A</span>
+                            </h3>
+                        </div>
                         <div class="nfy-balance-box">
-                            <form action="">
+
                                 <div class="d-flex align-items-center nfy-balance-box-inner">
                                     <div class="input-holder">
                                     <label for="">INPUT</label>
-                                    <input disabled type="text" value="COMING SOON">
+                                    <input type="number" id="input-nfy-stake" value="0">
                                     </div>
                                     <p>NFY</p>
                                 </div>
 
-                                <input disabled type="submit" class="btn" value="STAKE NFY">
-                            </form>
+                                <input type="submit" id="submit-nfy-stake" class="btn" value="STAKE NFY">
+                                <input type="submit" id="unstake-nfy" class="btn" value="UNSTAKE NFY">
+                                    <!--<button id="submit-nfy-stake" class="btn">STAKE NFY</button>-->
+
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="green-box-section text-center">
                         <div class="text-green">
-                        <h3>STAKE NFY/ETH LP TOKEN</h3>
+                            <h3>NFY/ETH LP VAULT <br> TOTAL STAKED : <span id="total-lp-staked"> N/A NFY/ETH LP</span></h3>
                         </div>
-                        <h3 id="lp-balance">YOUR NFY/ETH LP BALANCE : N/A</h3>
-                        <h3>APY : N/A</h3>
+                        <div id="lp-stake-details">
+                            <h3>
+                                <span class="text-green">YOUR NFY/ETH LP BALANCE : </span><span id="lp-balance">N/A</span>
+                                <br><span class="text-green">STAKED LP / NFT BALANCE : </span><span id="lp-staked">N/A</span> / <span id="total-lp-nfts">N/A</span>
+                                <br><span class="text-green">APY : </span> <span id="lp-apy">N/A</span>
+                                <span class="text-green">&nbsp; &nbsp; YOUR REWARDS : </span> <span id="lp-rewards">N/A</span>
+                            </h3>
+                        </div>
                         <div class="nfy-balance-box">
-                            <form action="">
+
                                 <div class="d-flex align-items-center nfy-balance-box-inner">
                                     <div class="input-holder">
                                     <label for="">INPUT</label>
-                                    <input disabled type="text" value="COMING SOON">
+                                    <input id="input-lp-stake" type="number" value="0">
                                     </div>
                                     <p>NFY/ETH LP</p>
                                 </div>
 
-                                <input disabled type="submit" class="btn" value="STAKE NFY-ETH LP">
-                            </form>
+                                <input id="submit-lp-stake" type="submit" class="btn" value="STAKE NFY-ETH LP">
+
                         </div>
                     </div>
                 </div>
