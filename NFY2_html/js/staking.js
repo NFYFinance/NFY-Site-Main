@@ -28,9 +28,9 @@ $(document).ready(async function() {
 
 function stakeNfy() {
 
-    LPTokens.methods.allowance(accounts[0], lpStakingAddress).call().then(function(res){
+    nfyToken.methods.allowance(accounts[0], nfyStakingAddress).call().then(function(res){
         if(res == 0){
-            LPTokens.methods.approve(lpStakingAddress, (BigInt(maxAllowance)).toString()).send()
+            nfyToken.methods.approve(nfyStakingAddress, (BigInt(maxAllowance)).toString()).send()
 
             .on("transactionHash", function(hash){
                 console.log(hash);
@@ -50,7 +50,7 @@ function stakeNfy() {
 
             var stake = web3.utils.toWei(stakeVal, "ether");
 
-            lpStaking.methods.stakeLP(stake).send()
+            nfyStaking.methods.stakeNFY(stake).send()
 
             .on("transactionHash", function(hash){
                 console.log(hash);
@@ -273,7 +273,8 @@ async function connect() {
     }
 
     accounts = await web3.eth.getAccounts();
-    nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
+    //nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
+    nfyToken = new web3.eth.Contract(DEMONFYAbi, "0xb0dAAf035396416b7891603aE235070b789A80DA", {from: accounts[0]});
     //LPTokens = new web3.eth.Contract(LPAbi, "0x146D3401B6a41122Bd318ba676A01c44cB0795E2", {from: accounts[0]});
     LPTokens = new web3.eth.Contract(DEMOLPAbi, "0xeA90734284A80f016861301Bdab3C5F2F34FC33b", {from: accounts[0]});
 
