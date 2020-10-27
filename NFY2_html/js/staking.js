@@ -8,8 +8,9 @@ var nfyStakingNFT;
 var lpStaking;
 var lpStakingNFT;
 
-var lpStakingAddress = "0x33FB69137C5E3bc7966f8B61763Bee3260928624";
-var nfyStakingAddress = "0x6d9575c898d8224941c9EfcE3cB77D72EB2d1ec7";
+var lpStakingAddress = "0x40D834fa1837f3C16EE47Df9aa467f4E4d13Eb7f";
+var lpAddress = "0x5911a4ff2E4a7C08309dD984E057F8b731cEB8E7"
+var nfyStakingAddress = "0x1697F07BcCB9489b26ec96CB18AAF745E7Ff30E0";
 
 var maxAllowance = 1157920892373161954235709850086879078532699846656405;
 
@@ -21,8 +22,12 @@ $(document).ready(async function() {
    console.log(nfyToken);
 
    $(".connect_button").click(connect);
-   $("#submit-nfy-stake").click(stakeNfy);
+   $("#stake-nfy").click(stakeNfy);
+   $("#unstake-nfy").click(unstakeNfy);
+   $("#claim-nfy").click(claimNfyRewards);
+   $("#compound-nfy").click(compoundNfyRewards);
    $("#submit-lp-stake").click(stakeLp);
+   $("#claim-lp-rewards").click(claimLpRewards);
 
 })
 
@@ -46,7 +51,7 @@ function stakeNfy() {
         }
 
         else {
-            var stakeVal = $("#input-lp-stake").val();
+            var stakeVal = $("#input-nfy-stake").val();
 
             var stake = web3.utils.toWei(stakeVal, "ether");
 
@@ -66,11 +71,10 @@ function stakeNfy() {
         }
     })
 
-    /*var stakeVal = $("#input-nfy-stake").val();
+}
 
-    var stake = web3.utils.toWei(stakeVal, "ether");
-
-    nfyStaking.methods.stakeNFY(stake).send()
+function unstakeNfy() {
+    nfyStaking.methods.unstakeAll().send()
 
     .on("transactionHash", function(hash){
         console.log(hash);
@@ -82,7 +86,39 @@ function stakeNfy() {
 
     .on("receipt", function(receipt){
         console.log(receipt);
-    })*/
+    })
+}
+
+function compoundNfyRewards() {
+    nfyStaking.methods.compoundAllRewards().send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
+function claimNfyRewards() {
+    nfyStaking.methods.claimAllRewards().send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
 }
 
 function getNfyBalance() {
@@ -90,7 +126,7 @@ function getNfyBalance() {
     nfyToken.methods.balanceOf(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#nfy-balance").text(res);
+        $(".nfy-balance").text(res.toFixed(4));
     })
 }
 
@@ -98,7 +134,7 @@ function getTotalNfyStaked() {
     nfyStaking.methods.totalStaked().call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#total-nfy-staked").text(res + " NFY");
+        $("#total-nfy-staked").text(res.toFixed(4) + " NFY");
     })
 }
 
@@ -106,7 +142,7 @@ function getUserStakedNfy() {
     nfyStaking.methods.getTotalBalance(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#nfy-staked").text(res);
+        $("#nfy-staked").text(res.toFixed(4));
     })
 }
 
@@ -138,7 +174,7 @@ function getUserNfyRewards() {
     nfyStaking.methods.getTotalRewards(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#nfy-rewards").text(res.toFixed(4) + " NFY");
+        $(".nfy-rewards").text(res.toFixed(4) + " NFY");
     })
 }
 
@@ -184,11 +220,27 @@ function stakeLp() {
 
 }
 
+function claimLpRewards() {
+    lpStaking.methods.claimAllRewards().send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
 function getTotalLpStaked() {
     lpStaking.methods.totalStaked().call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#total-lp-staked").text(res + " NFY/ETH LP");
+        $("#total-lp-staked").text(res.toFixed(4) + " NFY/ETH LP");
     })
 }
 
@@ -196,7 +248,7 @@ function getUserStakedLp() {
     lpStaking.methods.getTotalBalance(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#lp-staked").text(res);
+        $("#lp-staked").text(res.toFixed(4));
     })
 }
 
@@ -218,6 +270,7 @@ function getLpAPY() {
         }
 
         else{
+
             var apy = rewardPerBlock * 6500 * 366 * 100 / staked;
             $("#lp-apy").text(apy.toFixed(2) + "%");
         }
@@ -238,7 +291,7 @@ function getLPBalance() {
     LPTokens.methods.balanceOf(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#lp-balance").text(res);
+        $("#lp-balance").text(res.toFixed(4));
     })
 }
 
@@ -274,15 +327,15 @@ async function connect() {
 
     accounts = await web3.eth.getAccounts();
     //nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
-    nfyToken = new web3.eth.Contract(DEMONFYAbi, "0xb0dAAf035396416b7891603aE235070b789A80DA", {from: accounts[0]});
+    nfyToken = new web3.eth.Contract(DEMONFYAbi, "0xfd044F5516338B037Da071940e7f1F3a455837d1", {from: accounts[0]});
     //LPTokens = new web3.eth.Contract(LPAbi, "0x146D3401B6a41122Bd318ba676A01c44cB0795E2", {from: accounts[0]});
-    LPTokens = new web3.eth.Contract(DEMOLPAbi, "0xeA90734284A80f016861301Bdab3C5F2F34FC33b", {from: accounts[0]});
+    LPTokens = new web3.eth.Contract(DEMOLPAbi, "0x5911a4ff2E4a7C08309dD984E057F8b731cEB8E7", {from: accounts[0]});
 
-    nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x6d9575c898d8224941c9EfcE3cB77D72EB2d1ec7", {from: accounts[0]});
-    nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0x4D47ad91Bb5D7ef813a4e959875811ed9B7e8c68", {from: accounts[0]});
+    nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x1697F07BcCB9489b26ec96CB18AAF745E7Ff30E0", {from: accounts[0]});
+    nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0x9492761DE603aeD1Fcb7B2Daa730b16f210fbA25", {from: accounts[0]});
 
-    lpStaking = new web3.eth.Contract(LPStakingABI, "0x33FB69137C5E3bc7966f8B61763Bee3260928624", {from: accounts[0]});
-    lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x63F0bdab3A41B834656C0FE8e1e49db042AaD6BB", {from: accounts[0]});
+    lpStaking = new web3.eth.Contract(LPStakingABI, "0x40D834fa1837f3C16EE47Df9aa467f4E4d13Eb7f", {from: accounts[0]});
+    lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x8c4D88cE2728a45c6287129AbdA46bA8dACfd835", {from: accounts[0]});
 
     console.log(nfyToken);
     console.log(accounts[0]);

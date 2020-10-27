@@ -289,7 +289,20 @@ body:not(.home) { position: relative; }
 .nfy-balance-box label { position: absolute; font-size: 16px; left: 10px; top: 5px; font-weight: 400; margin-bottom: 0; letter-spacing: 1px; }
 .nfy-balance-box input:not([type="submit"]) { margin-bottom: 0;  border:1px solid #36E52C; border-radius: 10px; padding: 20px 20px 5px 40px; font-size: 40px; color: #fff; line-height: 1; }
 
-.nfy-balance-box-inner { max-width: 425px; margin-left: auto; margin-right: auto; }
+.nfy-balance-box-inner, input.nfy-balance-box-inner { max-width: 425px; margin-left: auto; margin-right: auto; }
+
+.submit-nfy-stake {
+  min-width: auto;
+  margin-bottom: 0;
+}
+.submit-left {
+	margin-right: 30px;
+}
+
+#nfy-stake-details h3, #lp-stake-details h3 {
+    font-size: 27px;
+}
+
 /*============================= Staking 1 Page ================================*/
 
 .stake-box-inner { margin-top: 50px; margin-bottom: 60px; }
@@ -307,6 +320,7 @@ body:not(.home) { position: relative; }
 .claim-rewards-modal .left-col  { text-align: right; }
 .claim-rewards-modal .left-col .arrow-icon {  padding-right: 30px; }
 .claim-rewards-modal .right-col { text-align: left; }
+#stake-lp-div {display: flex; justify-content: center; }
 .claim-rewards-modal .right-col .arrow-icon { padding-left: 30px; }
 
 .arrow-hoolder small { font-size: 12px; font-family: aktiv-grotesk-condensed, sans-serif; display: block; text-align: center; margin-top: 30px; }
@@ -360,7 +374,6 @@ ul.three-col li:first-child { text-align: left; }
 .info-list-holder { padding-right: 15px; }
 
 .trade-btn-holdder { margin-top: 20px; margin-bottom: 10px; }
-
 
 .trade-box-section .nfy-balance-box input:not([type="submit"]) { font-size: 30px; }
 
