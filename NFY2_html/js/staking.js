@@ -8,6 +8,7 @@ var nfyStakingNFT;
 var lpStaking;
 var lpStakingNFT;
 
+var rewardPoolAddress = "0x2f822dA8016d5e8ce3c93b53eE1528392Ca3ac57";
 var lpAddress = "0x146d3401b6a41122bd318ba676a01c44cb0795e2"
 var lpStakingAddress = "0x8D8daF6658d3aD3b329225fe7ca99E2787A101BA";
 var nfyStakingAddress = "0x9F18363fF3AB60Fdf7DCAcA8564a48ea0790b9B3";
@@ -30,6 +31,14 @@ $(document).ready(async function() {
    $("#claim-lp-rewards").click(claimLpRewards);
 
 })
+
+function nfyInRewardPool() {
+    nfyToken.methods.balanceOf(rewardPoolAddress).call().then(function(res){
+        res = res / 1000000000000000000;
+
+        $("#nfy-reward-pool").text(res.toFixed(2));
+    })
+}
 
 function stakeNfy() {
 
@@ -349,6 +358,7 @@ async function connect() {
     lpStaking = new web3.eth.Contract(LPStakingABI, "0x8D8daF6658d3aD3b329225fe7ca99E2787A101BA", {from: accounts[0]});
     lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0xa197D1829BFCa8BfaD6E6d2A6f7580e6b91196e7", {from: accounts[0]});
 
+
     console.log(nfyToken);
     console.log(accounts[0]);
 
@@ -366,6 +376,8 @@ async function connect() {
     getUserLpNfts();
     getLpAPY();
     getUserLpRewards();
+
+    nfyInRewardPool();
 
     connected();
 }

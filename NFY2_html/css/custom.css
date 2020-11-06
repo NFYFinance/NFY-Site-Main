@@ -303,6 +303,11 @@ body:not(.home) { position: relative; }
     font-size: 27px;
 }
 
+.text-small {
+	font-size: 27px;
+	line-height: 0.8;
+}
+
 /*============================= Staking 1 Page ================================*/
 
 .stake-box-inner { margin-top: 50px; margin-bottom: 60px; }
@@ -321,6 +326,7 @@ body:not(.home) { position: relative; }
 .claim-rewards-modal .left-col .arrow-icon {  padding-right: 30px; }
 .claim-rewards-modal .right-col { text-align: left; }
 #stake-lp-div {display: flex; justify-content: center; }
+#stake-nfy-div {display: flex; justify-content: center; }
 .claim-rewards-modal .right-col .arrow-icon { padding-left: 30px; }
 
 .arrow-hoolder small { font-size: 12px; font-family: aktiv-grotesk-condensed, sans-serif; display: block; text-align: center; margin-top: 30px; }

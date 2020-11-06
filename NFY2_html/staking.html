@@ -96,12 +96,15 @@
     <section class="header-bottom-section common-px">
         <div class="container-fluid p-lg-0">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="has-underline">
-                    <h3>STAKING / UNSTAKING</h3>
+                        <h3>STAKING / UNSTAKING</h3>
                     </div>
                 </div>
-                <div class="col-md-6 text-md-right">
+                <div class="col-md-4 text-center">
+                    <h3><span class="text-green">TOTAL REWARD POOL = </span><span id="nfy-reward-pool" class="nfy-reward">N/A</span> NFY</h3>
+                </div>
+                <div class="col-md-4 text-md-right">
                     <button class="btn connect_button">UNLOCK WALLET</button>
                 </div>
             </div>
@@ -116,10 +119,13 @@
     <section class="stake-nfy-section">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-6">
+
                     <div class="green-box-section text-center">
-                        <div class="text-green">
-                            <h3>NFY STAKING VAULT <br> TOTAL STAKED : <span id="total-nfy-staked"> N/A NFY</span></h3>
+
+                        <div>
+                            <h3><span class="text-green">NFY STAKING VAULT <br> TOTAL STAKED : </span><span id="total-nfy-staked"> N/A NFY</span><br></span> <span class="text-small">0.10% OF REWARD POOL DAILY</span></h3>
                         </div>
                         <div id="nfy-stake-details">
                             <h3>
@@ -139,7 +145,7 @@
                                     <p>NFY</p>
                                 </div>
                                 <div class="d-flex align-items-center nfy-balance-box-inner">
-                                    <input type="submit" id="stake-nfy" class="btn submit-nfy-stake submit-left" value="STAKE NFY">
+                                    <input type="submit" data-toggle="modal"  data-target="#nfy-staking-page" class="btn submit-nfy-stake submit-left" value="STAKE NFY">
                                     <input type="submit" id="unstake-nfy" class="btn submit-nfy-stake " value="UNSTAKE NFY">
 
                                 </div>
@@ -153,6 +159,44 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal claim-rewards-modal fade" id="nfy-staking-page" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <h3>STAKE NFY</h3>
+                                </div>
+
+                                <div class="nfy-balance-box stake-section-box">
+
+                                    <div class="d-flex align-items-center nfy-balance-box-inner stake-box-inner justify-content-center">
+                                        <div class="stake-section-icon">
+                                            <img src="images/nfy_icon.png" alt="">
+                                        </div>
+
+                                        <div class="input-holder">
+                                            <h3><span class="text-green">WHEN YOU UNSTAKE PLEASE REMEMBER THAT <br> </span>5%<span class="text-green"> GOES TO THE REWARDS POOL TO ASSIST THE NFY ECO SYSTEM.</span></h3>
+                                            <h3><span class="text-green">ALSO NOTE FOR STAKING YOU NEED TO APPROVE IT <br>FIRST AND THEN MAKE THE STAKE </span></h3>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row arrow-hoolder center-col" id="stake-nfy-div">
+                                        <div class="col-sm-6 center-col">
+                                            <input id="stake-nfy" type="submit" class="btn" value="STAKE NFY">
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Modal -->
                     <div class="modal claim-rewards-modal fade" id="nfy-rewards-page" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -209,8 +253,9 @@
                    <!-- Modal -->
                 <div class="col-lg-6">
                     <div class="green-box-section text-center">
-                        <div class="text-green">
-                            <h3>NFY/ETH LP STAKING VAULT <br> TOTAL STAKED : <span id="total-lp-staked"> N/A NFY/ETH LP</span></h3>
+
+                        <div>
+                            <h3><span class="text-green">NFY/ETH LP STAKING VAULT </span><br><span class="text-green"> TOTAL STAKED : </span><span id="total-lp-staked"> N/A NFY/ETH LP</span> <br><span class="text-small">0.30% OF REWARD POOL DAILY</span></h3>
                         </div>
                         <div id="lp-stake-details">
                             <h3>
