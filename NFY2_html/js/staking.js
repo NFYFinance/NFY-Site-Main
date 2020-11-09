@@ -32,6 +32,13 @@ $(document).ready(async function() {
 
 })
 
+function trim(number, precision){
+    var array = number.toString().split(".");
+    array.push(array.pop().substring(0, precision));
+    var trimmedNumber =  array.join(".");
+    return(trimmedNumber);
+}
+
 function nfyInRewardPool() {
     nfyToken.methods.balanceOf(rewardPoolAddress).call().then(function(res){
         res = res / 1000000000000000000;
@@ -135,7 +142,8 @@ function getNfyBalance() {
     nfyToken.methods.balanceOf(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $(".nfy-balance").text(res.toFixed(4));
+        //$(".nfy-balance").text(res.toFixed(4));
+        $(".nfy-balance").text(trim(res, 4));
     })
 }
 
@@ -314,7 +322,8 @@ function getLPBalance() {
     LPTokens.methods.balanceOf(accounts[0]).call().then(function(res){
         res = res / 1000000000000000000;
 
-        $("#lp-balance").text(res.toFixed(4));
+        //$("#lp-balance").text(res.toFixed(4));
+        $("#lp-balance").text(trim(res, 4));
     })
 }
 
