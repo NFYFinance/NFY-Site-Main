@@ -8,6 +8,9 @@ var nfyStakingNFT;
 var lpStaking;
 var lpStakingNFT;
 
+var nfyStakingV1;
+var lpStakingV1;
+
 var tradingPlatform;
 
 var rewardPoolAddress = "0x2f822dA8016d5e8ce3c93b53eE1528392Ca3ac57";
@@ -31,6 +34,9 @@ $(document).ready(async function() {
    $("#compound-nfy").click(compoundNfyRewards);
    $("#submit-lp-stake").click(stakeLp);
    $("#claim-lp-rewards").click(claimLpRewards);
+
+   $("#unstake-nfy-v1").click(unstakeNFYV1);
+   $("#unstake-lp-v1").click(unstakeLPV1);
 
 })
 
@@ -327,6 +333,62 @@ function getLPBalance() {
     })
 }
 
+// Unstake NFY from V1 contract
+function unstakeNFYV1() {
+    nfyStakingV1.methods.unstakeAll().send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
+// Unstake LP from v1 Contract
+function unstakeLPV1() {
+    lpStakingV1.methods.unstakeAll().send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
+function checkIfV1LPUnstaked() {
+    lpStakingV1.methods.getTotalBalance(accounts[0]).call().then(function(res){
+        res = res / 1000000000000000000;
+
+        if(res == 0) {
+            document.getElementById("unstake-lp-v1").disabled = true;
+            document.getElementById("unstake-lp-v1").value = "NO LP STAKED IN V1";
+        }
+    })
+}
+
+function checkIfV1NFYUnstaked() {
+    nfyStakingV1.methods.getTotalBalance(accounts[0]).call().then(function(res){
+        res = res / 1000000000000000000;
+
+        if(res == 0) {
+            document.getElementById("unstake-nfy-v1").disabled = true;
+            document.getElementById("unstake-nfy-v1").value = "NO NFY STAKED IN V1";
+        }
+    })
+}
+
 // Trading Platform Functions
 
 // NFY stake sell order
@@ -620,6 +682,9 @@ async function connect() {
     nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
     LPTokens = new web3.eth.Contract(LPAbi, "0x146D3401B6a41122Bd318ba676A01c44cB0795E2", {from: accounts[0]});
 
+    nfyStakingV1 = new web3.eth.Contract(NFYStakingABIV1, "0x9F18363fF3AB60Fdf7DCAcA8564a48ea0790b9B3", {from: accounts[0]});
+    lpStakingV1 = new web3.eth.Contract(LPStakingABIV1, "0x8D8daF6658d3aD3b329225fe7ca99E2787A101BA", {from: accounts[0]});
+
     nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x9F18363fF3AB60Fdf7DCAcA8564a48ea0790b9B3", {from: accounts[0]});
     nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0xfd75a1D3398cA4ae176eB1fAa58b295A0D1f1498", {from: accounts[0]});
 
@@ -627,9 +692,6 @@ async function connect() {
     lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0xa197D1829BFCa8BfaD6E6d2A6f7580e6b91196e7", {from: accounts[0]});
 
     tradingPlatform; // Trading platform address
-
-    console.log(nfyToken);
-    console.log(accounts[0]);
 
     getNfyBalance();
     getLPBalance();
@@ -650,11 +712,8 @@ async function connect() {
 
     nfyInRewardPool();
 
+    checkIfV1NFYUnstaked();
+    checkIfV1LPUnstaked();
+
     connected();
-}
-
-
-function getOwner() {
-
-
 }
