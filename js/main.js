@@ -590,14 +590,14 @@ function getUserNfyLPNft() {
     var numLPNft;
     var token;
 
-    lpStakingNFT.methods.balanceOf("0x5000e435C595b63c097FC3813900147e4c72B87E").call().then(function(res){
+    lpStakingNFT.methods.balanceOf(accounts[0]).call().then(function(res){
         numLPNft = res;
         console.log(numLPNft)
 
         var i;
 
         for(i = 0; i < numLPNft; i++) {
-            lpStakingNFT.methods.tokenOfOwnerByIndex("0x5000e435C595b63c097FC3813900147e4c72B87E", i).call().then(function(_token){
+            lpStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
                 token = _token;
                 lpStaking.methods.getNFTBalance(token).call().then(function(_balance){
                     _balance = _balance / 1000000000000000000;
