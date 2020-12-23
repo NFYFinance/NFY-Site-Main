@@ -8,6 +8,8 @@ var nfyStakingNFT;
 var lpStaking;
 var lpStakingNFT;
 
+var wEth;
+
 var nfyStakingV1;
 var lpStakingV1;
 
@@ -37,6 +39,9 @@ $(document).ready(async function() {
 
    $("#unstake-nfy-v1").click(unstakeNFYV1);
    $("#unstake-lp-v1").click(unstakeLPV1);
+
+   $("#deposit-button").click(deposit);
+   $("#withdraw-button").click(withdraw);
 
 })
 
@@ -483,166 +488,168 @@ function nfyLPBuyOrder() {
     })
 }
 
-// Deposit NFY stake into trading platform
-// Need val
-function depositNfyStake() {
-    var amountToDepositVal = $("#input-deposit-amount").val();
+function deposit() {
+    var assetSelected;
+    var depositAmount;
 
-    var amountToDeposit = web3.utils.toWei(amountToDepositVal, "ether");
+    assetSelected = $("#deposit-asset-select").find(":selected").val();
+    depositAmount = $("#input-deposit-amount").val();
 
-    tradingPlatform.methods.depositStake("NFY", amountToDeposit).send()
+    /*if(assetSelected == "eth"){
+        var config = { value: web3.utils.toWei(depositAmount, "ether") }
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+        tradingPlatform.methods.depositEth().send(config)
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+        .on("transactionHash", function(hash){
+            console.log(hash);
+        })
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
+        .on("confirmation", function(confirmationNr){
+            console.log(confirmationNr);
+        })
+
+        .on("receipt", function(receipt){
+            console.log(receipt);
+        })
+    }
+
+    else {
+        depositAmount = web3.utils.toWei(depositAmount, "ether");
+        tradingPlatform.methods.depositStake(assetSelected, depositAmount)
+
+        .on("transactionHash", function(hash){
+            console.log(hash);
+        })
+
+        .on("confirmation", function(confirmationNr){
+            console.log(confirmationNr);
+        })
+
+        .on("receipt", function(receipt){
+            console.log(receipt);
+        })
+    }*/
+
+    alert(assetSelected + " deposit");
+    alert(depositAmount + " deposit");
 }
 
-// Withdraw NFY stake from trading platform
-// Need Val
-function withdrawNfyStake() {
-    var amountToWithdrawVal = $("#input-deposit-amount").val();
+function withdraw() {
+    var assetSelected;
+    var withdrawAmount;
 
-    var amountToWithdraw = web3.utils.toWei(amountToWithdrawVal, "ether");
+    assetSelected = $("#deposit-asset-select").find(":selected").val();
+    withdrawAmount = $("#input-deposit-amount").val();
 
-    tradingPlatform.methods.withdrawStake("NFY", amountToWithdraw).send()
+    alert(assetSelected + "withdraw");
+    alert(withdrawAmount + " withdraw");
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+    /*if(assetSelected == "eth"){
+        withdrawAmount = web3.utils.toWei(withdrawAmount, "ether");
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+        tradingPlatform.methods.withdrawEth(withdrawAmount).send()
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
-}
+        .on("transactionHash", function(hash){
+            console.log(hash);
+        })
 
-// Deposit NFY/ETH LP stake into trading platform
-// Need val
-function depositNfyLPStake() {
-    var amountToDepositVal = $("#input-deposit-amount").val();
+        .on("confirmation", function(confirmationNr){
+            console.log(confirmationNr);
+        })
 
-    var amountToDeposit = web3.utils.toWei(amountToDepositVal, "ether");
+        .on("receipt", function(receipt){
+            console.log(receipt);
+        })
+    }
 
-    tradingPlatform.methods.depositStake("NFYLP",amountToDeposit).send()
+    else {
+        withdrawAmount = web3.utils.toWei(withdrawAmount, "ether");
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+        tradingPlatform.methods.withdrawStake(assetSelected, withdrawAmount)
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+        .on("transactionHash", function(hash){
+            console.log(hash);
+        })
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
+        .on("confirmation", function(confirmationNr){
+            console.log(confirmationNr);
+        })
 
-}
+        .on("receipt", function(receipt){
+            console.log(receipt);
+        })
+    }*/
 
-// Withdraw NFY/ETH LP stake from trading platform
-// Need val
-function withdrawNfyLPStake() {
-    var amountToWithdrawVal = $("#input-deposit-amount").val();
 
-    var amountToWithdraw = web3.utils.toWei(amountToWithdrawVal, "ether");
-
-    tradingPlatform.methods.withdrawStake("NFYLP", amountToWithdraw).send()
-
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
-
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
-
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
-}
-
-// Deposit eth into trading platform
-function depositEth() {
-    var ethToDeposit = $("#input-deposit-amount").val();
-
-    var config = { value: web3.utils.toWei(ethToDeposit, "ether") }
-
-    tradingPlatform.methods.depositEth().send(config)
-
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
-
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
-
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
-}
-
-// Withdraw eth from trading platform
-function withdrawEth() {
-    var ethToWithdrawVal = $("#input-deposit-amount").val()
-
-    var ethToWithdraw = web3.utils.toWei(ethToWithdrawVal, "ether");
-
-    tradingPlatform.methods.withdrawEth(ethToWithdraw).send()
-
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
-
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
-
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
 }
 
 function getUserNfyNft() {
-
 }
 
 function getUserNfyLPNft() {
     var numLPNft;
     var token;
 
-    lpStakingNFT.methods.balanceOf(accounts[0]).call().then(function(res){
+    lpStakingNFT.methods.balanceOf("0x5000e435C595b63c097FC3813900147e4c72B87E").call().then(function(res){
         numLPNft = res;
         console.log(numLPNft)
 
         var i;
 
         for(i = 0; i < numLPNft; i++) {
-            lpStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
+            lpStakingNFT.methods.tokenOfOwnerByIndex("0x5000e435C595b63c097FC3813900147e4c72B87E", i).call().then(function(_token){
                 token = _token;
-                console.log(token);
-
                 lpStaking.methods.getNFTBalance(token).call().then(function(_balance){
                     _balance = _balance / 1000000000000000000;
                     console.log(_balance);
 
-                    console.log("NFY Stake Token ID: " + token + " Value: " + _balance);
+                    console.log("NFY Stake Token ID: " + _token + " Value: " + _balance);
+
                 })
             })
         }
     })
 
+
+
+}
+
+// Function that gets NFY Price
+function getNFYPrice() {
+    var nfyPrice;
+
+    wEth.methods.balanceOf(lpAddress).call().then(function(eth){
+        eth = eth / 1000000000000000000
+
+        nfyToken.methods.balanceOf(lpAddress).call().then(function(nfy){
+            nfy = nfy / 1000000000000000000;
+
+            nfyPrice = (eth / nfy).toFixed(5);
+
+            console.log(nfyPrice);
+
+            $("#price-sell-nfy").attr("value", nfyPrice);
+            $("#price-buy-nfy").attr("value", nfyPrice);
+        })
+    })
+}
+
+// Function that gets LP Price
+function getLPPrice() {
+    var lpPrice;
+
+    LPTokens.methods.totalSupply().call().then(function(lpTotal){
+        lpTotal = lpTotal / 1000000000000000000;
+
+        wEth.methods.balanceOf(lpAddress).call().then(function(eth){
+            eth = eth / 1000000000000000000;
+
+            lpPrice = (2 * eth / lpTotal).toFixed(5);
+
+            $("#price-sell-lp").attr("value", lpPrice);
+            $("#price-buy-lp").attr("value", lpPrice);
+        })
+    })
 
 
 }
@@ -691,6 +698,8 @@ async function connect() {
     lpStaking = new web3.eth.Contract(LPStakingABI, "0x8D8daF6658d3aD3b329225fe7ca99E2787A101BA", {from: accounts[0]});
     lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0xa197D1829BFCa8BfaD6E6d2A6f7580e6b91196e7", {from: accounts[0]});
 
+    wEth = new web3.eth.Contract(WETHABI, "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", {from: accounts[0]});
+
     tradingPlatform; // Trading platform address
 
     getNfyBalance();
@@ -714,6 +723,9 @@ async function connect() {
 
     checkIfV1NFYUnstaked();
     checkIfV1LPUnstaked();
+
+    getNFYPrice();
+    getLPPrice();
 
     connected();
 }
