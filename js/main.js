@@ -41,6 +41,10 @@ $(document).ready(async function() {
    $("#unstake-lp-v1").click(unstakeLPV1);
 
    $("#deposit-button").click(deposit);
+
+   $("#deposit-button").click(getNFTs);
+
+
    $("#withdraw-button").click(withdraw);
 
 })
@@ -394,6 +398,10 @@ function checkIfV1NFYUnstaked() {
     })
 }
 
+
+
+
+
 // Trading Platform Functions
 
 // NFY stake sell order
@@ -491,9 +499,13 @@ function nfyLPBuyOrder() {
 function deposit() {
     var assetSelected;
     var depositAmount;
+    var idSelected;
 
     assetSelected = $("#deposit-asset-select").find(":selected").val();
     depositAmount = $("#input-deposit-amount").val();
+
+    idSelected = $("#deposit-scrollbox ul").children().eq(0).text();
+
 
     /*if(assetSelected == "eth"){
         var config = { value: web3.utils.toWei(depositAmount, "ether") }
@@ -532,6 +544,7 @@ function deposit() {
 
     alert(assetSelected + " deposit");
     alert(depositAmount + " deposit");
+    alert(idSelected);
 }
 
 function withdraw() {
@@ -586,7 +599,7 @@ function withdraw() {
 function getUserNfyNft() {
 }
 
-function getUserNfyLPNft() {
+/*function getUserNfyLPNft() {
     var numLPNft;
     var token;
 
@@ -610,7 +623,93 @@ function getUserNfyLPNft() {
         }
     })
 
+}*/
 
+function getNFTs() {
+    var assetSelected;
+
+    $("#deposit-asset-select").on("change", function () {
+
+        assetSelected = $("#deposit-asset-select").find(":selected").val();
+
+        if(assetSelected == "nfylp"){
+
+            lpStakingNFT.methods.balanceOf(accounts[0]).call().then(function(res){
+            numLPNft = res;
+            console.log(numLPNft)
+
+                var i;
+
+                for(i = 0; i < numLPNft; i++) {
+                    lpStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
+                        token = _token;
+                        lpStaking.methods.getNFTBalance(token).call().then(function(_balance){
+                            _balance = _balance / 1000000000000000000;
+                            console.log(_balance);
+
+                            console.log("NFY LP Stake Token ID: " + _token + " Value: " + _balance);
+
+                            $("#deposit-scrollbox ul").remove();
+
+                            $("#deposit-scrollbox").append("<ul class=\"three-col\"></ul");
+
+                            $("#deposit-scrollbox ul").each(function(){
+                                $(this).addClass("nfy-eth-asset");
+                                $(this).removeClass("nfy-asset");
+
+                                $(this).append("<li>ID " + _token + "</li>");
+                                $(this).append("<li>Value: " + _balance + "</li>");
+
+                                //$(this).children().first().html("ID: " + _token);
+                                //$(this).children().eq(1).html("Value: " + _balance);
+                                //$(this).children().first().html("NFY-ETH LP / NFT <span class=\"nfy-eth-id\">123</span>");
+                            });
+
+                        })
+                    })
+                }
+            })
+        }
+
+        else if(assetSelected == "nfy"){
+            nfyStakingNFT.methods.balanceOf(accounts[0]).call().then(function(res){
+            numLPNft = res;
+            console.log(numLPNft)
+
+                var i;
+
+                for(i = 0; i < numLPNft; i++) {
+                    nfyStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
+                        token = _token;
+                        nfyStaking.methods.getNFTBalance(token).call().then(function(_balance){
+                            _balance = _balance / 1000000000000000000;
+                            console.log(_balance);
+
+                            console.log("NFY Stake Token ID: " + _token + "Value: " + _balance);
+
+                            $("#deposit-scrollbox ul").remove();
+
+                            $("#deposit-scrollbox").append("<ul class=\"three-col\"></ul");
+
+                            $("#deposit-scrollbox ul").each(function(){
+                                $(this).addClass("nfy-asset");
+                                $(this).removeClass("nfy-eth-asset");
+
+                                $(this).append("<li>ID " + _token + "</li>");
+                                $(this).append("<li>Value: " + _balance + "</li>");
+
+                                //$(this).children().first().html("ID: " + _token);
+                                //$(this).children().eq(1).html(" Value: " + _balance);
+                                //$(this).children().first().html("NFY LP / NFT <span class=\"nfy-id\">123</span>");
+                            });
+
+                        })
+                    })
+                }
+            })
+
+        }
+    });
 
 }
 
@@ -717,7 +816,7 @@ async function connect() {
     getLpAPY();
     getUserLpRewards();
 
-    getUserNfyLPNft();
+    //getUserNfyLPNft();
 
     nfyInRewardPool();
 
@@ -726,6 +825,8 @@ async function connect() {
 
     getNFYPrice();
     getLPPrice();
+
+    getNFTs();
 
     connected();
 }

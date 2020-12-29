@@ -89,7 +89,6 @@ $("#deposit-scrollbox ul").on("click", function(){
     $(this).removeClass("scroll-item-selected");
   });
   $(this).addClass("scroll-item-selected");
-  console.log($(this));
 });
 
 
@@ -119,13 +118,22 @@ $("#deposit-scrollbox ul").on("click", function(){
     } else {
       //deposit
       if ($(".nice-select li.selected").index() == 1) {
+        //ethereum selected
+
         $("#ssss1, #ssss2").removeClass("hidden");
         $("#deposit-scrollbox").addClass("hidden");
+
       } else if ($(".nice-select li.selected").index() == 2) {
+        //nfy-eth selected
+
         $("#ssss1").addClass("hidden");
         $(".deposit-scroll-bar").removeClass("hidden");
+
         $("#deposit-scrollbox, #ssss2").removeClass("hidden");
+
       } else if ($(".nice-select li.selected").index() == 3) {
+        //nfy selected
+
         $("#ssss2").addClass("hidden");
         $(".deposit-scroll-bar").removeClass("hidden");
         $("#deposit-scrollbox, #ssss2").removeClass("hidden");
