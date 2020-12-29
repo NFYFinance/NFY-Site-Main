@@ -19,6 +19,7 @@ var rewardPoolAddress = "0x2f822dA8016d5e8ce3c93b53eE1528392Ca3ac57";
 var lpAddress = "0x146d3401b6a41122bd318ba676a01c44cb0795e2"
 var lpStakingAddress = "0xc05846592d811B27c67B1267F189611775fcC2dD";
 var nfyStakingAddress = "0xB211603591C44C720d8b96FEec8a57cFCDAfb763";
+var tradingPlatformAddress = "0xF8c8DD8d68CfDDcACD23c7112C9a104A1F1B95c1"
 
 var maxAllowance = 1157920892373161954235709850086879078532699846656405;
 
@@ -46,6 +47,13 @@ $(document).ready(async function() {
 
 
    $("#withdraw-button").click(withdraw);
+
+   $("#btn-buy-nfy").click(nfyBuyOrder);
+   $("#btn-sell-nfy").click(nfySellOrder);
+
+   $("#btn-buy-nfylp").click(nfyLPBuyOrder);
+   $("#btn-sell-nfylp").click(nfyLPSellOrder);
+
 
 })
 
@@ -406,93 +414,183 @@ function checkIfV1NFYUnstaked() {
 
 // NFY stake sell order
 function nfySellOrder() {
-    var nfyToSellVal = $("#quantity-sell-nfy").val();
-    var nfyPriceVal = $("#price-sell-nfy").val();
+    nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
-    var nfyToSell = web3.utils.toWei(nfyToSellVal, "ether");
-    var nfyPrice = web3.utils.toWei(nfyPriceVal, "ether");
+        if(res == 0){
+            nfyToken.methods.approve(tradingPlatformAddress, (BigInt(maxAllowance)).toString()).send()
 
-    tradingPlatform.methods.createLimitOrder("NFY", nfyToSell, nfyPrice, 1).send()
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
+        else {
+
+            var nfyToSellVal = $("#quantity-sell-nfy").val();
+            var nfyPriceVal = $("#price-sell-nfy").val();
+
+            var nfyToSell = web3.utils.toWei(nfyToSellVal, "ether");
+            var nfyPrice = web3.utils.toWei(nfyPriceVal, "ether");
+
+            tradingPlatform.methods.createLimitOrder("nfy", nfyToSell, nfyPrice, 1).send()
+
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
+
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
+
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
     })
 }
 
 // NFY stake buy order
 function nfyBuyOrder() {
-    var nfyToBuyVal = $("#quantity-buy-nfy").val();
-    var nfyPriceVal = $("#price-buy-nfy").val();
 
-    var nfyToBuy = web3.utils.toWei(nfyToBuyVal, "ether");
-    var nfyPrice = web3.utils.toWei(nfyPriceVal, "ether");
+    nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
-    tradingPlatform.methods.createLimitOrder("NFY", nfyToBuy, nfyPrice, 0).send()
+        if(res == 0){
+            nfyToken.methods.approve(tradingPlatformAddress, (BigInt(maxAllowance)).toString()).send()
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
+
+        else {
+            var nfyToBuyVal = $("#quantity-buy-nfy").val();
+            var nfyPriceVal = $("#price-buy-nfy").val();
+
+            var nfyToBuy = web3.utils.toWei(nfyToBuyVal, "ether");
+            var nfyPrice = web3.utils.toWei(nfyPriceVal, "ether");
+
+            tradingPlatform.methods.createLimitOrder("nfy", nfyToBuy, nfyPrice, 0).send()
+
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
+
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
+
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
     })
 }
 
 // NFY/ETH LP stake sell order
 function nfyLPSellOrder() {
-    var lpToSellVal = $("#quantity-sell-lp").val();
-    var lpPriceVal = $("#price-sell-lp").val();
+    nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
-    var lpToSell = web3.utils.toWei(lpToSellVal, "ether");
-    var lpPrice = web3.utils.toWei(lpPriceVal, "ether");
+        if(res == 0){
+            nfyToken.methods.approve(tradingPlatformAddress, (BigInt(maxAllowance)).toString()).send()
 
-    tradingPlatform.methods.createLimitOrder("NFYLP", lpToSell, lpPrice, 1).send()
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
+
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
+
+        else{
+
+            var lpToSellVal = $("#quantity-sell-lp").val();
+            var lpPriceVal = $("#price-sell-lp").val();
+
+            var lpToSell = web3.utils.toWei(lpToSellVal, "ether");
+            var lpPrice = web3.utils.toWei(lpPriceVal, "ether");
+
+            tradingPlatform.methods.createLimitOrder("nfylp", lpToSell, lpPrice, 1).send()
+
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
+
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
+
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
+
     })
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
-
-    .on("receipt", function(receipt){
-        console.log(receipt);
-    })
 }
 
 // NFY/ETH LP stake buy order
 function nfyLPBuyOrder() {
-    var lpToBuyVal = $("#quantity-buy-lp").val();
-    var lpPriceVal = $("#price-buy-lp").val();
+    nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
+        if(res == 0){
+            nfyToken.methods.approve(tradingPlatformAddress, (BigInt(maxAllowance)).toString()).send()
 
-    var lpToBuy = web3.utils.toWei(lpToBuyVal, "ether");
-    var lpPrice = web3.utils.toWei(lpPriceVal, "ether");
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
 
-    tradingPlatform.methods.createLimitOrder("NFYLP", lpToBuy, lpPrice, 0).send()
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
 
-    .on("transactionHash", function(hash){
-        console.log(hash);
-    })
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
 
-    .on("confirmation", function(confirmationNr){
-        console.log(confirmationNr);
-    })
+        else {
 
-    .on("receipt", function(receipt){
-        console.log(receipt);
+            var lpToBuyVal = $("#quantity-buy-lp").val();
+            var lpPriceVal = $("#price-buy-lp").val();
+
+            var lpToBuy = web3.utils.toWei(lpToBuyVal, "ether");
+            var lpPrice = web3.utils.toWei(lpPriceVal, "ether");
+
+            tradingPlatform.methods.createLimitOrder("nfylp", lpToBuy, lpPrice, 0).send()
+
+            .on("transactionHash", function(hash){
+                console.log(hash);
+            })
+
+            .on("confirmation", function(confirmationNr){
+                console.log(confirmationNr);
+            })
+
+            .on("receipt", function(receipt){
+                console.log(receipt);
+            })
+        }
+
     })
 }
 
@@ -507,7 +605,7 @@ function deposit() {
     idSelected = $("#deposit-scrollbox ul").children().eq(0).text();
 
 
-    /*if(assetSelected == "eth"){
+    if(assetSelected == "eth"){
         var config = { value: web3.utils.toWei(depositAmount, "ether") }
 
         tradingPlatform.methods.depositEth().send(config)
@@ -525,7 +623,7 @@ function deposit() {
         })
     }
 
-    else {
+    /*else {
         depositAmount = web3.utils.toWei(depositAmount, "ether");
         tradingPlatform.methods.depositStake(assetSelected, depositAmount)
 
@@ -594,9 +692,6 @@ function withdraw() {
     }*/
 
 
-}
-
-function getUserNfyNft() {
 }
 
 /*function getUserNfyLPNft() {
@@ -753,6 +848,44 @@ function getLPPrice() {
 
 }
 
+// Function that gets user's balance in trading platform
+function getBalances() {
+    var ethBalance;
+    var assetBalance;
+    var assetSelected;
+
+    $("#deposit-asset-select").on("change", function () {
+
+        assetSelected = $("#deposit-asset-select").find(":selected").val();
+
+        if(assetSelected == "eth"){
+
+            tradingPlatform.methods.getEthBalance(accounts[0]).call().then(function(eth){
+                ethBalance = eth / 1000000000000000000;
+                $("#input-deposit-value").attr("value", ethBalance)
+            });
+        }
+
+        else {
+            tradingPlatform.methods.getTraderBalance(accounts[0], assetSelected).call().then(function(bal){
+                assetBalance = bal / 1000000000000000000;
+                $("#input-deposit-value").attr("value", assetBalance)
+            });
+        }
+
+    });
+
+    tradingPlatform.methods.getTraderBalance(accounts[0], "nfy").call().then(function(bal){
+        bal = bal / 1000000000000000000;
+        $("#nfyDeposited").text(bal)
+    })
+
+    tradingPlatform.methods.getTraderBalance(accounts[0], "nfylp").call().then(function(bal){
+        bal = bal / 1000000000000000000;
+        $("#lpDeposited").text(bal)
+    })
+}
+
 function connected() {
     var accountsAbrv = accounts[0].slice(0,7);
     $(".connect_button").text("CONNECTED TO: " + accountsAbrv + "...");
@@ -785,7 +918,7 @@ async function connect() {
     }
 
     accounts = await web3.eth.getAccounts();
-    nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
+    /*nfyToken = new web3.eth.Contract(NFYAbi, "0x1cBb83EbcD552D5EBf8131eF8c9CD9d9BAB342bC", {from: accounts[0]});
     LPTokens = new web3.eth.Contract(LPAbi, "0x146D3401B6a41122Bd318ba676A01c44cB0795E2", {from: accounts[0]});
 
     nfyStakingV1 = new web3.eth.Contract(NFYStakingABIV1, "0x9F18363fF3AB60Fdf7DCAcA8564a48ea0790b9B3", {from: accounts[0]});
@@ -797,9 +930,24 @@ async function connect() {
     lpStaking = new web3.eth.Contract(LPStakingABI, "0xc05846592d811B27c67B1267F189611775fcC2dD", {from: accounts[0]});
     lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x320f0005364E755136cB72955fdc842F18E21ae7", {from: accounts[0]});
 
+    wEth = new web3.eth.Contract(WETHABI, "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", {from: accounts[0]});*/
+
+    nfyToken = new web3.eth.Contract(NFYAbi, "0xAE10Aed5806F12CE3F09B81D69d5754cB22bE7fC", {from: accounts[0]});
+    LPTokens = new web3.eth.Contract(LPAbi, "0xc1b8D728813acfe6de36aBCF3C4828F2A84A1C7C", {from: accounts[0]});
+
+    nfyStakingV1 = new web3.eth.Contract(NFYStakingABIV1, "0x5f7702b8D3c075Dd7a856C1Aac2A69eFFF4Ae59a", {from: accounts[0]});
+    lpStakingV1 = new web3.eth.Contract(LPStakingABIV1, "0x40cE081969A7f3af69d17c6Ba07F536DaF728Cbb", {from: accounts[0]});
+
+    nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x5f7702b8D3c075Dd7a856C1Aac2A69eFFF4Ae59a", {from: accounts[0]});
+    nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0x21C37435f1F70975e5010F8864507fec910b3496", {from: accounts[0]});
+
+    lpStaking = new web3.eth.Contract(LPStakingABI, "0x40cE081969A7f3af69d17c6Ba07F536DaF728Cbb", {from: accounts[0]});
+    lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x62f8Ceb1FCC8526A6d82E59fd7930836074fBDE9", {from: accounts[0]});
+
     wEth = new web3.eth.Contract(WETHABI, "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", {from: accounts[0]});
 
     tradingPlatform; // Trading platform address
+    tradingPlatform = new web3.eth.Contract(TradingABI, "0xF8c8DD8d68CfDDcACD23c7112C9a104A1F1B95c1", {from: accounts[0]});
 
     getNfyBalance();
     getLPBalance();
@@ -826,6 +974,7 @@ async function connect() {
     getNFYPrice();
     getLPPrice();
 
+    getBalances();
     getNFTs();
 
     connected();
