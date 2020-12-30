@@ -886,6 +886,60 @@ function getBalances() {
     })
 }
 
+function getOrders() {
+
+    tradingPlatform.methods.getOrders("nfy", 1).call().then(function(orders){
+
+        for(i = 0; i < orders.length; i++){
+            console.log(orders[i]);
+            var amount = orders[i].amount - orders[i].filled;
+            $("#mCSB_1_container").append("<ul class=\"three-col\"></ul");
+            $("#mCSB_1_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
+            $("#mCSB_1_container ul:last").append("<li>"+ amount / 1e18 + "</li");
+            $("#mCSB_1_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+
+        }
+    });
+
+    tradingPlatform.methods.getOrders("nfy", 0).call().then(function(orders){
+
+        for(i = 0; i < orders.length; i++){
+            console.log(orders[i]);
+            var amount = orders[i].amount - orders[i].filled;
+            $("#mCSB_2_container").append("<ul class=\"three-col\"></ul");
+            $("#mCSB_2_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
+            $("#mCSB_2_container ul:last").append("<li>"+ amount / 1e18 + "</li");
+            $("#mCSB_2_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+
+        }
+    });
+
+    tradingPlatform.methods.getOrders("nfylp", 1).call().then(function(orders){
+
+        for(i = 0; i < orders.length; i++){
+            console.log(orders[i]);
+            var amount = orders[i].amount - orders[i].filled;
+            $("#mCSB_3_container").append("<ul class=\"three-col\"></ul");
+            $("#mCSB_3_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
+            $("#mCSB_3_container ul:last").append("<li>"+ amount / 1e18 + "</li");
+            $("#mCSB_3_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+
+        }
+    });
+
+    tradingPlatform.methods.getOrders("nfylp", 0).call().then(function(orders){
+
+        for(i = 0; i < orders.length; i++){
+            console.log(orders[i]);
+            var amount = orders[i].amount - orders[i].filled;
+            $("#mCSB_4_container").append("<ul class=\"three-col\"></ul");
+            $("#mCSB_4_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
+            $("#mCSB_4_container ul:last").append("<li>"+ amount / 1e18 + "</li");
+            $("#mCSB_4_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+        }
+    });
+}
+
 function connected() {
     var accountsAbrv = accounts[0].slice(0,7);
     $(".connect_button").text("CONNECTED TO: " + accountsAbrv + "...");
@@ -976,6 +1030,8 @@ async function connect() {
 
     getBalances();
     getNFTs();
+
+    getOrders();
 
     connected();
 }
