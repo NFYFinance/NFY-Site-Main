@@ -655,7 +655,7 @@ function withdraw() {
     alert(assetSelected + "withdraw");
     alert(withdrawAmount + " withdraw");
 
-    /*if(assetSelected == "eth"){
+    if(assetSelected == "eth"){
         withdrawAmount = web3.utils.toWei(withdrawAmount, "ether");
 
         tradingPlatform.methods.withdrawEth(withdrawAmount).send()
@@ -676,7 +676,7 @@ function withdraw() {
     else {
         withdrawAmount = web3.utils.toWei(withdrawAmount, "ether");
 
-        tradingPlatform.methods.withdrawStake(assetSelected, withdrawAmount)
+        tradingPlatform.methods.withdrawStake(assetSelected, withdrawAmount).send()
 
         .on("transactionHash", function(hash){
             console.log(hash);
@@ -689,7 +689,7 @@ function withdraw() {
         .on("receipt", function(receipt){
             console.log(receipt);
         })
-    }*/
+    }
 
 
 }
@@ -724,6 +724,7 @@ function getNFTs() {
     var assetSelected;
 
     $("#deposit-asset-select").on("change", function () {
+        $("#deposit-scrollbox ul").remove();
 
         assetSelected = $("#deposit-asset-select").find(":selected").val();
 
@@ -744,11 +745,9 @@ function getNFTs() {
 
                             console.log("NFY LP Stake Token ID: " + _token + " Value: " + _balance);
 
-                            $("#deposit-scrollbox ul").remove();
+                            $("#mCSB_5_container").append("<ul class=\"three-col\"></ul");
 
-                            $("#deposit-scrollbox").append("<ul class=\"three-col\"></ul");
-
-                            $("#deposit-scrollbox ul").each(function(){
+                            $("#mCSB_5_container ul:last").each(function(){
                                 $(this).addClass("nfy-eth-asset");
                                 $(this).removeClass("nfy-asset");
 
@@ -782,11 +781,9 @@ function getNFTs() {
 
                             console.log("NFY Stake Token ID: " + _token + "Value: " + _balance);
 
-                            $("#deposit-scrollbox ul").remove();
+                            $("#mCSB_5_container").append("<ul class=\"three-col\"></ul");
 
-                            $("#deposit-scrollbox").append("<ul class=\"three-col\"></ul");
-
-                            $("#deposit-scrollbox ul").each(function(){
+                            $("#mCSB_5_container ul:last").each(function(){
                                 $(this).addClass("nfy-asset");
                                 $(this).removeClass("nfy-eth-asset");
 
