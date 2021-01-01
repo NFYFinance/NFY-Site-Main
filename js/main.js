@@ -54,6 +54,11 @@ $(document).ready(async function() {
    $("#btn-buy-nfylp").click(nfyLPBuyOrder);
    $("#btn-sell-nfylp").click(nfyLPSellOrder);
 
+   $("#cancel-nfy-sell").click(cancelNfySellOrder);
+   $("#cancel-nfy-buy").click(cancelNfyBuyOrder);
+   $("#cancel-nfylp-sell").click(cancelNfyLPSellOrder);
+   $("#cancel-nfylp-buy").click(cancelNfyLPBuyOrder);
+
 
 })
 
@@ -594,6 +599,7 @@ function nfyLPBuyOrder() {
     })
 }
 
+// Function that will allow users to deposit
 function deposit() {
     var assetSelected;
     var depositAmount;
@@ -623,7 +629,7 @@ function deposit() {
         })
     }
 
-    /*else {
+    else {
         depositAmount = web3.utils.toWei(depositAmount, "ether");
         tradingPlatform.methods.depositStake(assetSelected, depositAmount)
 
@@ -638,13 +644,14 @@ function deposit() {
         .on("receipt", function(receipt){
             console.log(receipt);
         })
-    }*/
+    }
 
     alert(assetSelected + " deposit");
     alert(depositAmount + " deposit");
     alert(idSelected);
 }
 
+// Function that will allow users to withdraw
 function withdraw() {
     var assetSelected;
     var withdrawAmount;
@@ -694,32 +701,7 @@ function withdraw() {
 
 }
 
-/*function getUserNfyLPNft() {
-    var numLPNft;
-    var token;
-
-    lpStakingNFT.methods.balanceOf(accounts[0]).call().then(function(res){
-        numLPNft = res;
-        console.log(numLPNft)
-
-        var i;
-
-        for(i = 0; i < numLPNft; i++) {
-            lpStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
-                token = _token;
-                lpStaking.methods.getNFTBalance(token).call().then(function(_balance){
-                    _balance = _balance / 1000000000000000000;
-                    console.log(_balance);
-
-                    console.log("NFY Stake Token ID: " + _token + " Value: " + _balance);
-
-                })
-            })
-        }
-    })
-
-}*/
-
+// Function that gets the NFTs when a user is trying to deposit
 function getNFTs() {
     var assetSelected;
 
@@ -753,10 +735,6 @@ function getNFTs() {
 
                                 $(this).append("<li>ID " + _token + "</li>");
                                 $(this).append("<li>Value: " + _balance + "</li>");
-
-                                //$(this).children().first().html("ID: " + _token);
-                                //$(this).children().eq(1).html("Value: " + _balance);
-                                //$(this).children().first().html("NFY-ETH LP / NFT <span class=\"nfy-eth-id\">123</span>");
                             });
 
                         })
@@ -790,9 +768,6 @@ function getNFTs() {
                                 $(this).append("<li>ID " + _token + "</li>");
                                 $(this).append("<li>Value: " + _balance + "</li>");
 
-                                //$(this).children().first().html("ID: " + _token);
-                                //$(this).children().eq(1).html(" Value: " + _balance);
-                                //$(this).children().first().html("NFY LP / NFT <span class=\"nfy-id\">123</span>");
                             });
 
                         })
@@ -883,6 +858,7 @@ function getBalances() {
     })
 }
 
+// Function that will get the orders for the order book
 function getOrders() {
 
     tradingPlatform.methods.getOrders("nfy", 1).call().then(function(orders){
@@ -894,6 +870,10 @@ function getOrders() {
             $("#mCSB_1_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_1_container ul:last").append("<li>"+ amount / 1e18 + "</li");
             $("#mCSB_1_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+
+            if(orders[i].userAddress == accounts[0]){
+                $("#cancel-nfy-sell").removeClass("opacity");
+            }
 
         }
     });
@@ -908,6 +888,9 @@ function getOrders() {
             $("#mCSB_2_container ul:last").append("<li>"+ amount / 1e18 + "</li");
             $("#mCSB_2_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
 
+            if(orders[i].userAddress == accounts[0]){
+                $("#cancel-nfy-buy").removeClass("opacity");
+            }
         }
     });
 
@@ -921,6 +904,9 @@ function getOrders() {
             $("#mCSB_3_container ul:last").append("<li>"+ amount / 1e18 + "</li");
             $("#mCSB_3_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
 
+            if(orders[i].userAddress == accounts[0]){
+                $("#cancel-nfylp-sell").removeClass("opacity");
+            }
         }
     });
 
@@ -933,9 +919,83 @@ function getOrders() {
             $("#mCSB_4_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_4_container ul:last").append("<li>"+ amount / 1e18 + "</li");
             $("#mCSB_4_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+
+            if(orders[i].userAddress == accounts[0]){
+                $("#cancel-nfylp-buy").removeClass("opacity");
+            }
         }
     });
 }
+
+// Function that cancels user's latest nfy sell order
+function cancelNfySellOrder() {
+    tradingPlatform.methods.cancelOrder("nfy", 1).send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
+// Function that cancels user's latest nfy buy order
+function cancelNfyBuyOrder() {
+    tradingPlatform.methods.cancelOrder("nfy", 0).send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+
+}
+
+// Function that cancels user's latest nfy/eth lp sell order
+function cancelNfyLPSellOrder() {
+    tradingPlatform.methods.cancelOrder("nfylp", 1).send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
+// Function that cancels user's latest nfy/eth lp buy order
+function cancelNfyLPBuyOrder() {
+    tradingPlatform.methods.cancelOrder("nfylp", 0).send()
+
+    .on("transactionHash", function(hash){
+        console.log(hash);
+    })
+
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr);
+    })
+
+    .on("receipt", function(receipt){
+        console.log(receipt);
+    })
+}
+
 
 function connected() {
     var accountsAbrv = accounts[0].slice(0,7);
@@ -954,7 +1014,7 @@ async function connect() {
 
 
         else if(window.web3) {
-            wen3 = new Web3(window.web3.currentProvider);
+            web3 = new Web3(window.web3.currentProvider);
             console.log('web3');
         }
     }
