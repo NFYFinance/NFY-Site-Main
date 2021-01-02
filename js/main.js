@@ -56,9 +56,6 @@ $(document).ready(async function() {
    $("#cancel-nfylp-sell").click(cancelNfyLPSellOrder);
    $("#cancel-nfylp-buy").click(cancelNfyLPBuyOrder);
 
-
-
-
 })
 
 function trim(number, precision){
@@ -636,9 +633,9 @@ function deposit() {
         })
     }
 
-    /*else {
+    else {
         depositAmount = web3.utils.toWei(depositAmount, "ether");
-        tradingPlatform.methods.depositStake(assetSelected, depositAmount)
+        tradingPlatform.methods.depositStake(assetSelected, idSelected, depositAmount).send()
 
         .on("transactionHash", function(hash){
             console.log(hash);
@@ -651,7 +648,7 @@ function deposit() {
         .on("receipt", function(receipt){
             console.log(receipt);
         })
-    }*/
+    }
 
     alert(assetSelected + " deposit");
     alert(depositAmount + " deposit");
