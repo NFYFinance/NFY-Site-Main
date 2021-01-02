@@ -43,9 +43,6 @@ $(document).ready(async function() {
 
    $("#deposit-button").click(deposit);
 
-   $("#deposit-button").click(getNFTs);
-
-
    $("#withdraw-button").click(withdraw);
 
    $("#btn-buy-nfy").click(nfyBuyOrder);
@@ -58,6 +55,8 @@ $(document).ready(async function() {
    $("#cancel-nfy-buy").click(cancelNfyBuyOrder);
    $("#cancel-nfylp-sell").click(cancelNfyLPSellOrder);
    $("#cancel-nfylp-buy").click(cancelNfyLPBuyOrder);
+
+
 
 
 })
@@ -608,7 +607,15 @@ function deposit() {
     assetSelected = $("#deposit-asset-select").find(":selected").val();
     depositAmount = $("#input-deposit-amount").val();
 
-    idSelected = $("#deposit-scrollbox ul").children().eq(0).text();
+    //idSelected = $("#deposit-scrollbox ul").children().eq(0).text();
+    //idSelected = $("#deposit-scrollbox ul").hasClass("scroll-item-selected").children.eq(0).text();
+
+    $("#mCSB_5_container ul").each(function(){
+        if($(this).hasClass("scroll-item-selected")){
+            var id = $(this).children().eq(0).text();
+            idSelected = id.substr(4, );
+        }
+    });
 
 
     if(assetSelected == "eth"){
@@ -629,7 +636,7 @@ function deposit() {
         })
     }
 
-    else {
+    /*else {
         depositAmount = web3.utils.toWei(depositAmount, "ether");
         tradingPlatform.methods.depositStake(assetSelected, depositAmount)
 
@@ -644,7 +651,7 @@ function deposit() {
         .on("receipt", function(receipt){
             console.log(receipt);
         })
-    }
+    }*/
 
     alert(assetSelected + " deposit");
     alert(depositAmount + " deposit");
@@ -720,8 +727,7 @@ function getNFTs() {
 
                 for(i = 0; i < numLPNft; i++) {
                     lpStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
-                        token = _token;
-                        lpStaking.methods.getNFTBalance(token).call().then(function(_balance){
+                        lpStaking.methods.getNFTBalance(_token).call().then(function(_balance){
                             _balance = _balance / 1000000000000000000;
                             console.log(_balance);
 
@@ -730,11 +736,15 @@ function getNFTs() {
                             $("#mCSB_5_container").append("<ul class=\"three-col\"></ul");
 
                             $("#mCSB_5_container ul:last").each(function(){
-                                $(this).addClass("nfy-eth-asset");
-                                $(this).removeClass("nfy-asset");
-
-                                $(this).append("<li>ID " + _token + "</li>");
+                                $(this).append("<li>ID: " + _token + "</li>");
                                 $(this).append("<li>Value: " + _balance + "</li>");
+                            });
+
+                            $("#mCSB_5_container ul").on("click", function(){
+                                $("#mCSB_5_container ul").each(function(){
+                                    $(this).removeClass("scroll-item-selected");
+                                });
+                                $(this).addClass("scroll-item-selected");
                             });
 
                         })
@@ -752,8 +762,7 @@ function getNFTs() {
 
                 for(i = 0; i < numLPNft; i++) {
                     nfyStakingNFT.methods.tokenOfOwnerByIndex(accounts[0], i).call().then(function(_token){
-                        token = _token;
-                        nfyStaking.methods.getNFTBalance(token).call().then(function(_balance){
+                        nfyStaking.methods.getNFTBalance(_token).call().then(function(_balance){
                             _balance = _balance / 1000000000000000000;
                             console.log(_balance);
 
@@ -762,11 +771,16 @@ function getNFTs() {
                             $("#mCSB_5_container").append("<ul class=\"three-col\"></ul");
 
                             $("#mCSB_5_container ul:last").each(function(){
-                                $(this).addClass("nfy-asset");
-                                $(this).removeClass("nfy-eth-asset");
-
-                                $(this).append("<li>ID " + _token + "</li>");
+                                $(this).append("<li>ID: " + _token + "</li>");
                                 $(this).append("<li>Value: " + _balance + "</li>");
+
+                            });
+
+                            $("#mCSB_5_container ul").on("click", function(){
+                                $("#mCSB_5_container ul").each(function(){
+                                    $(this).removeClass("scroll-item-selected");
+                                });
+                                $(this).addClass("scroll-item-selected");
 
                             });
 
@@ -778,6 +792,15 @@ function getNFTs() {
         }
     });
 
+}
+
+function getId() {
+    $("#mCSB_5_container ul").each(function(){
+        if($(this).hasClass("scroll-item-selected")){
+            var id = $(this).children().eq(0).text();
+            alert(id.substr(4, ));
+        }
+    });
 }
 
 // Function that gets NFY Price
@@ -1043,22 +1066,22 @@ async function connect() {
 
     wEth = new web3.eth.Contract(WETHABI, "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", {from: accounts[0]});*/
 
-    nfyToken = new web3.eth.Contract(NFYAbi, "0xAE10Aed5806F12CE3F09B81D69d5754cB22bE7fC", {from: accounts[0]});
-    LPTokens = new web3.eth.Contract(LPAbi, "0xc1b8D728813acfe6de36aBCF3C4828F2A84A1C7C", {from: accounts[0]});
+    nfyToken = new web3.eth.Contract(NFYAbi, "0x2F5D61E314b031cC0640E7e4eA5522308D99c3A5", {from: accounts[0]});
+    LPTokens = new web3.eth.Contract(LPAbi, "0x599Bf483597619fA75d6Ee9DfAc36Ee859F38780", {from: accounts[0]});
 
-    nfyStakingV1 = new web3.eth.Contract(NFYStakingABIV1, "0x5f7702b8D3c075Dd7a856C1Aac2A69eFFF4Ae59a", {from: accounts[0]});
-    lpStakingV1 = new web3.eth.Contract(LPStakingABIV1, "0x40cE081969A7f3af69d17c6Ba07F536DaF728Cbb", {from: accounts[0]});
+    nfyStakingV1 = new web3.eth.Contract(NFYStakingABIV1, "0x9a56199824f68e99BD9ED0C6499b20c0c46448f9", {from: accounts[0]});
+    lpStakingV1 = new web3.eth.Contract(LPStakingABIV1, "0x2b7a9853e78aaa2f0384DcceBf7E08C67cb3611e", {from: accounts[0]});
 
-    nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x5f7702b8D3c075Dd7a856C1Aac2A69eFFF4Ae59a", {from: accounts[0]});
-    nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0x21C37435f1F70975e5010F8864507fec910b3496", {from: accounts[0]});
+    nfyStaking = new web3.eth.Contract(NFYStakingABI, "0x9a56199824f68e99BD9ED0C6499b20c0c46448f9", {from: accounts[0]});
+    nfyStakingNFT = new web3.eth.Contract(NFYStakingNFTABI, "0xf05AFAE3A82fC440F0162C36833689Eff750871B", {from: accounts[0]});
 
-    lpStaking = new web3.eth.Contract(LPStakingABI, "0x40cE081969A7f3af69d17c6Ba07F536DaF728Cbb", {from: accounts[0]});
-    lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x62f8Ceb1FCC8526A6d82E59fd7930836074fBDE9", {from: accounts[0]});
+    lpStaking = new web3.eth.Contract(LPStakingABI, "0x2b7a9853e78aaa2f0384DcceBf7E08C67cb3611e", {from: accounts[0]});
+    lpStakingNFT = new web3.eth.Contract(LPStakingNFTABI, "0x00877D14076BF83d8e54f3DF4DA2D278A02E2a19", {from: accounts[0]});
 
     wEth = new web3.eth.Contract(WETHABI, "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", {from: accounts[0]});
 
     tradingPlatform; // Trading platform address
-    tradingPlatform = new web3.eth.Contract(TradingABI, "0xF8c8DD8d68CfDDcACD23c7112C9a104A1F1B95c1", {from: accounts[0]});
+    tradingPlatform = new web3.eth.Contract(TradingABI, "0x3f20c7ee7eF60C85F17Cc1E9B1b3DCAdB1eb14C2", {from: accounts[0]});
 
     getNfyBalance();
     getLPBalance();

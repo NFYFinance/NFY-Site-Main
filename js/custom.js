@@ -84,12 +84,12 @@ $(".cancel-label").on('click', function(){
 });
 
 
-$("#deposit-scrollbox ul").on("click", function(){
+/*$("#deposit-scrollbox ul").on("click", function(){
   $("#deposit-scrollbox ul").each(function(){
     $(this).removeClass("scroll-item-selected");
   });
   $(this).addClass("scroll-item-selected");
-});
+});*/
 
 
 
