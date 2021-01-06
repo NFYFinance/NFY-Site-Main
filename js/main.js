@@ -19,7 +19,7 @@ var rewardPoolAddress = "0x2f822dA8016d5e8ce3c93b53eE1528392Ca3ac57";
 var lpAddress = "0x146d3401b6a41122bd318ba676a01c44cb0795e2"
 var lpStakingAddress = "0xc05846592d811B27c67B1267F189611775fcC2dD";
 var nfyStakingAddress = "0xB211603591C44C720d8b96FEec8a57cFCDAfb763";
-var tradingPlatformAddress = "0xF8c8DD8d68CfDDcACD23c7112C9a104A1F1B95c1"
+var tradingPlatformAddress = "0x3f20c7ee7eF60C85F17Cc1E9B1b3DCAdB1eb14C2"
 
 var maxAllowance = 1157920892373161954235709850086879078532699846656405;
 
@@ -791,15 +791,6 @@ function getNFTs() {
 
 }
 
-function getId() {
-    $("#mCSB_5_container ul").each(function(){
-        if($(this).hasClass("scroll-item-selected")){
-            var id = $(this).children().eq(0).text();
-            alert(id.substr(4, ));
-        }
-    });
-}
-
 // Function that gets NFY Price
 function getNFYPrice() {
     var nfyPrice;
@@ -876,6 +867,11 @@ function getBalances() {
         bal = bal / 1000000000000000000;
         $("#lpDeposited").text(bal)
     })
+
+    tradingPlatform.methods.getEthBalance(accounts[0]).call().then(function(bal){
+        bal = bal / 1000000000000000000;
+        $(".ethDeposited").text(bal)
+    })
 }
 
 // Function that will get the orders for the order book
@@ -889,7 +885,7 @@ function getOrders() {
             $("#mCSB_1_container").append("<ul class=\"three-col\"></ul");
             $("#mCSB_1_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_1_container ul:last").append("<li>"+ amount / 1e18 + "</li");
-            $("#mCSB_1_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+            $("#mCSB_1_container ul:last").append("<li>"+ ((amount / 1e18) * (orders[i].price / 1e18)).toFixed(5) + "</li");
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfy-sell").removeClass("opacity");
@@ -906,7 +902,7 @@ function getOrders() {
             $("#mCSB_2_container").append("<ul class=\"three-col\"></ul");
             $("#mCSB_2_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_2_container ul:last").append("<li>"+ amount / 1e18 + "</li");
-            $("#mCSB_2_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+            $("#mCSB_2_container ul:last").append("<li>"+ ((amount / 1e18) * (orders[i].price / 1e18)).toFixed(5) + "</li");
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfy-buy").removeClass("opacity");
@@ -922,7 +918,7 @@ function getOrders() {
             $("#mCSB_3_container").append("<ul class=\"three-col\"></ul");
             $("#mCSB_3_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_3_container ul:last").append("<li>"+ amount / 1e18 + "</li");
-            $("#mCSB_3_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+            $("#mCSB_3_container ul:last").append("<li>"+ ((amount / 1e18) * (orders[i].price / 1e18)).toFixed(5) + "</li");
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfylp-sell").removeClass("opacity");
@@ -938,7 +934,7 @@ function getOrders() {
             $("#mCSB_4_container").append("<ul class=\"three-col\"></ul");
             $("#mCSB_4_container ul:last").append("<li>" + orders[i].price / 1e18 + "</li");
             $("#mCSB_4_container ul:last").append("<li>"+ amount / 1e18 + "</li");
-            $("#mCSB_4_container ul:last").append("<li>"+ (amount / 1e18) * (orders[i].price / 1e18) + "</li");
+            $("#mCSB_4_container ul:last").append("<li>"+ ((amount / 1e18) * (orders[i].price / 1e18)).toFixed(5) + "</li");
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfylp-buy").removeClass("opacity");
