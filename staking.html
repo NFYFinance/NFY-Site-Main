@@ -59,7 +59,7 @@
                             <ul>  
                                 <li class="d-block d-lg-none "><a href="index.html">HOME</a></li>
                                 <li class="current-menu-item"><a href="staking.html">STAKING / UNSTAKING</a></li>
-                                <!--<li><a href="trading.html">TRADING NFY</a></li>-->
+                                <li><a href="trading.html">TRADING</a></li>
                                 <li><a href="about.html">ABOUT NFY</a></li>
                             </ul>
                         </div>
@@ -280,7 +280,11 @@
                                 </div>
                                 <div class="d-flex align-items-center nfy-balance-box-inner">
                                     <input type="submit" data-toggle="modal" data-target="#lp-stake-page" class="btn submit-nfy-stake submit-left" value="STAKE NFY-ETH LP">
-                                    <input disabled type="submit" class="btn btn submit-nfy-stake" value="TRADE COMING SOON">
+                                    <!--<a href="trading.html">-->
+                                    <input type="submit" class="btn submit-nfy-stake" value="TRADE" onclick="window.location='trading.html';">
+
+                                    <!--</a>-->
+                                    <!--<a class="btn btn submit-nfy-stake" href="trading.html">TRADE</a>-->
 
                                 </div>
                                 <input type="submit" id="claim-lp-rewards" class="nfy-balance-box-inner btn" value="CLAIM REWARDS">

@@ -415,6 +415,11 @@ function checkIfV1NFYUnstaked() {
 
 // NFY stake sell order
 function nfySellOrder() {
+    if($("#price-sell-nfy").val() < 0 ) {
+        alert("Price can not be less than 0!")
+        return;
+    }
+
     nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
         if(res == 0){
@@ -460,6 +465,10 @@ function nfySellOrder() {
 
 // NFY stake buy order
 function nfyBuyOrder() {
+    if($("#price-buy-nfy").val() < 0 ) {
+        alert("Price needs to be more than 0!")
+        return;
+    }
 
     nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
@@ -505,6 +514,11 @@ function nfyBuyOrder() {
 
 // NFY/ETH LP stake sell order
 function nfyLPSellOrder() {
+    if($("#price-sell-lp").val() < 0 ) {
+        alert("Price can not be less than 0!")
+        return;
+    }
+
     nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
 
         if(res == 0){
@@ -552,6 +566,11 @@ function nfyLPSellOrder() {
 
 // NFY/ETH LP stake buy order
 function nfyLPBuyOrder() {
+    if($("#price-buy-lp").val() < 0 ) {
+        alert("Price needs to be more than 0!")
+        return;
+    }
+
     nfyToken.methods.allowance(accounts[0], tradingPlatformAddress).call().then(function(res){
         if(res == 0){
             nfyToken.methods.approve(tradingPlatformAddress, (BigInt(maxAllowance)).toString()).send()
@@ -889,6 +908,7 @@ function getOrders() {
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfy-sell").removeClass("opacity");
+                $("#mCSB_1_container ul:last").addClass("red");
             }
 
         }
@@ -906,6 +926,7 @@ function getOrders() {
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfy-buy").removeClass("opacity");
+                $("#mCSB_2_container ul:last").addClass("green");
             }
         }
     });
@@ -922,6 +943,7 @@ function getOrders() {
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfylp-sell").removeClass("opacity");
+                $("#mCSB_3_container ul:last").addClass("red");
             }
         }
     });
@@ -938,6 +960,7 @@ function getOrders() {
 
             if(orders[i].userAddress == accounts[0]){
                 $("#cancel-nfylp-buy").removeClass("opacity");
+                $("#mCSB_4_container ul:last").addClass("green");
             }
         }
     });

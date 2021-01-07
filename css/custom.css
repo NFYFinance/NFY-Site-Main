@@ -233,16 +233,9 @@ header {
   padding-bottom: 15px;
   z-index: 999;
 }
-/*header .logo_box img { width: 110px; height: auto; transition: none !important; margin-right: 125px;  }*/
-header .logo_box img {
-  width: 110px;
-  height: auto;
-  transition: none !important;
-  margin-right: 0px;
-}
-header.header-is-fixed .logo_box img {
-  width: 80px;
-}
+
+header .logo_box img { width: 110px; height: auto; transition: none !important; margin-right: 125px;  }
+header.header-is-fixed .logo_box img { width: 80px; }
 
 .all_menu_wrap {
   display: flex;
@@ -319,9 +312,8 @@ body .hdr_fix {
   -ms-animation: slide-down 0.7s;
   -webkit-animation: slide-down 0.7s;
 }
-body .hdr_fix .logo_box img {
-  max-width: 260px;
-}
+
+body .hdr_fix .logo_box img { max-width: 260px; }
 
 .header-top ul li {
   display: inline-flex;
@@ -989,27 +981,18 @@ ul.three-col li:first-child {
 }
 
 @media only screen and (max-width: 1700px) {
-  header .logo_box img {
-    width: 104px;
-  }
-  .header-top ul li a {
-    font-size: 17px;
-  }
-  .left_menu_wrap .left_menu ul li a {
-    font-size: 15px;
-  }
-  .banner_sec .slick-prev {
-    left: 150px;
-  }
-  .banner_sec .slick-next {
-    right: 150px;
-  }
 
-  /*header .logo_box img { margin-right: 110px; }*/
-  header .logo_box img {
-    margin-right: 0px;
-  }
+    header .logo_box img { width: 104px; }
+	.header-top ul li a { font-size: 17px; }
+	.left_menu_wrap .left_menu ul li a { font-size: 15px; }
+	.banner_sec .slick-prev { left: 150px; }
+	.banner_sec .slick-next { right: 150px; }
+
+	header .logo_box img { margin-right: 110px; }
+
 }
+
+#trading-logo img { margin-right: 20px; }
 
 @media only screen and (max-width: 1599px) {
   .about-us-content p {
@@ -1037,10 +1020,10 @@ ul.three-col li:first-child {
     height: 90px;
   }
 
-  /*header .logo_box img { margin-right: 100px; }*/
-  header .logo_box img {
-    margin-right: 0px;
-  }
+
+    header .logo_box img { margin-right: 100px; }
+    #trading-logo img {margin-right: 20px;}
+
   .header-bottom-section {
     margin-top: 20px;
   }
@@ -1203,6 +1186,9 @@ ul.three-col li:first-child {
   header .logo_box img {
     margin-right: 20px;
   }
+
+
+
 
   .all_menu_wrap {
     justify-content: center;
